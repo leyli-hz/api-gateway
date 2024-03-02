@@ -1,0 +1,21 @@
+server:
+  port: 8080
+spring:
+        application:
+          name: api-gateway-sample
+        cloud:
+            gateway:
+                routes:
+                  -   id: HomeX
+                      uri: https://127.0.0.1
+                      predicates:
+                        - RewritePath=/micro2/base/(?<segment>.*), /api/$\{segment}
+                        - Method= GET,POST,PUT,PATCH,HEAD
+                        - Path= /homeX/base/**
+                  -   id: micro-service2
+                      uri: https://127.0.0.1
+                      predicates:
+                        - RewritePath=/micro2/base/(?<segment>.*), /api/$\{segment}
+                        - Method= GET,POST,PUT,PATCH,HEAD
+                        - Path= /micro2/base/**
+                enabled: true
